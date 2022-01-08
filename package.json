@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "1.8.0",
     "@craco/craco": "6.4.2",
+    "@headlessui/react": "1.4.2",
+    "@heroicons/react": "1.0.5",
     "@reduxjs/toolkit": "1.6.0",
+    "@tailwindcss/forms": "0.4.0",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
     "@types/fontfaceobserver": "0.0.6",
