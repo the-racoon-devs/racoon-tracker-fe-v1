@@ -17,7 +17,7 @@ import { Dialog } from '@headlessui/react';
 import { ViewBoardsIcon } from '@heroicons/react/outline';
 import logo from 'app/images/logo.png';
 import { useAuth0 } from '@auth0/auth0-react';
-// const axios = require('axios');
+const axios = require('axios');
 
 const twuser = {
   name: 'Tom Cook',
@@ -100,6 +100,23 @@ export function DashboardLayout(props: Props) {
       setAuth0User(user);
     }
   }, [user]);
+
+  useEffect(() => {
+    getAccessTokenSilently().then(token => {
+      axios
+        .get(`${process.env.REACT_APP_API_ROUTE}/users`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+  }, []);
 
   // Functions
   // function getUser() {

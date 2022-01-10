@@ -6,6 +6,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect, useRef, useState } from 'react';
+import { stringify } from 'querystring';
 const axios = require('axios');
 
 interface Props {}
@@ -37,22 +38,26 @@ export function CreateProject(props: Props) {
     getAccessTokenSilently().then(token => {
       console.log(token);
       // Axios
-      axios
-        .post(`${process.env.REACT_APP_API_ROUTE}/projects/create`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            name: projectNameRef.current?.value,
-            owner: Auth0User.email,
-            description: projectDescriptionRef.current?.value,
-            site_url: projectSiteURLRef.current?.value,
-            githubLink: projectGitHubURLRef.current?.value,
-            logoUrl: projectLogoURLRef.current?.value,
-          },
-        })
+      var config = {
+        method: 'post',
+        url: `${process.env.REACT_APP_API_ROUTE}/projects/create`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({
+          name: projectNameRef.current?.value,
+          owner: Auth0User.email,
+          description: projectDescriptionRef.current?.value,
+          siteUrl: projectSiteURLRef.current?.value,
+          githubUrl: projectGitHubURLRef.current?.value,
+          logoUrl: projectLogoURLRef.current?.value,
+        }),
+      };
+
+      axios(config)
         .then(function (response) {
-          console.log(response);
+          console.log(JSON.stringify(response.data));
         })
         .catch(function (error) {
           console.log(error);
