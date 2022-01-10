@@ -13,16 +13,10 @@ import {
   UsersIcon,
 } from '@heroicons/react/outline';
 import { Helmet } from 'react-helmet-async';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useEffect, useState } from 'react';
 
 interface Props {}
-
-const user = {
-  name: 'Chelsea Hagon',
-  email: 'chelseahagon@example.com',
-  role: 'Human Resources Manager',
-  imageUrl:
-    'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
 
 const stats = [
   { label: 'Vacation days left', value: 12 },
@@ -133,6 +127,33 @@ function classNames(...classes) {
 }
 
 export function Home(props: Props) {
+  const [Auth0User, setAuth0User] = useState<any>('');
+
+  const { getAccessTokenSilently, user } = useAuth0();
+
+  useEffect(() => {
+    if (user) {
+      setAuth0User(user);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    // GET ACCESS_TOKEN FROM AUTH0
+    getAccessTokenSilently().then(token => {
+      console.log(token);
+      // API CALL
+      fetch(`https://tracker-api.racoon.dev/v1/users`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: Auth0User,
+      }).then(result => {
+        console.log(result);
+      });
+    });
+  }, [Auth0User]);
+
   return (
     <>
       <Helmet>
@@ -157,7 +178,7 @@ export function Home(props: Props) {
                         <div className="flex-shrink-0">
                           <img
                             className="mx-auto h-20 w-20 rounded-full"
-                            src={user.imageUrl}
+                            src={user?.picture}
                             alt=""
                           />
                         </div>
@@ -166,10 +187,10 @@ export function Home(props: Props) {
                             Welcome back,
                           </p>
                           <p className="text-xl font-bold text-gray-900 sm:text-2xl">
-                            {user.name}
+                            {user?.given_name + ' ' + user?.family_name}
                           </p>
                           <p className="text-sm font-medium text-gray-600">
-                            {user.role}
+                            {user?.email}
                           </p>
                         </div>
                       </div>
@@ -217,7 +238,7 @@ export function Home(props: Props) {
                         actionIdx === actions.length - 1
                           ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
                           : '',
-                        'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-cyan-500',
+                        'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-primary-500',
                       )}
                     >
                       <div>
@@ -283,7 +304,7 @@ export function Home(props: Props) {
                       <ul className="-my-5 divide-y divide-gray-200">
                         {announcements.map(announcement => (
                           <li key={announcement.id} className="py-5">
-                            <div className="relative focus-within:ring-2 focus-within:ring-cyan-500">
+                            <div className="relative focus-within:ring-2 focus-within:ring-primary-500">
                               <h3 className="text-sm font-semibold text-gray-800">
                                 <a
                                   href={announcement.href}

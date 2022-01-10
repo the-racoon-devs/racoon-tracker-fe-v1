@@ -23,6 +23,8 @@ import { configureAppStore } from 'store/configureStore';
 
 import reportWebVitals from 'reportWebVitals';
 
+import { Auth0Provider } from '@auth0/auth0-react';
+
 // Initialize languages
 import './locales/i18n';
 
@@ -30,13 +32,21 @@ const store = configureAppStore();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
-  <Provider store={store}>
-    <HelmetProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </HelmetProvider>
-  </Provider>,
+  <Auth0Provider
+    domain="the-racoon-devs.eu.auth0.com"
+    clientId="vdIHB5x73Jm6ZtuxqENWK6Vr6KFFrYGq"
+    redirectUri={window.location.origin}
+    audience="https://tracker-api.racoon.dev"
+    scope="openid profile email"
+  >
+    <Provider store={store}>
+      <HelmetProvider>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </HelmetProvider>
+    </Provider>
+  </Auth0Provider>,
   MOUNT_NODE,
 );
 

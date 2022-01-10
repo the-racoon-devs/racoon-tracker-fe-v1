@@ -152,7 +152,7 @@ export function ViewProjects(props: Props) {
 
       <main className="-mt-24 pb-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-0">
-          <h1 className="sr-only">Profile</h1>
+          <h1 className="sr-only">Projects</h1>
           {/* Main 3 column grid */}
           <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
             {/* Left column */}
