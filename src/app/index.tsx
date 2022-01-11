@@ -13,6 +13,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { DashboardLayout } from './pages/DashboardLayout';
 import { Landing } from './pages/Landing';
+import { PageLoader } from 'utils/PageLoader';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -28,6 +29,7 @@ export function App() {
 
       <Switch>
         <Route exact path="/" component={Landing} />
+        <Route exact path="/loader" component={PageLoader} />
         <Route path="/dashboard" component={DashboardLayout} />
       </Switch>
     </BrowserRouter>

@@ -17,7 +17,9 @@ import { Dialog } from '@headlessui/react';
 import { ViewBoardsIcon } from '@heroicons/react/outline';
 import logo from 'app/images/logo.png';
 import { useAuth0 } from '@auth0/auth0-react';
-const axios = require('axios');
+import { PageLoader } from 'utils/PageLoader';
+import { ViewProject } from '../Projects/ViewProject';
+import Request from 'utils/Request';
 
 const twuser = {
   name: 'Tom Cook',
@@ -88,35 +90,36 @@ export function DashboardLayout(props: Props) {
   const [OpenCreateProjectModal, setOpenCreateProjectModal] = useState(false);
   const cancelButtonRef = useRef(null);
   const [selected, setSelected] = useState(settings[0]);
-  const [Auth0User, setAuth0User] = useState<any>('');
   const projectNameRef = useRef<HTMLInputElement>(null);
-  const projectDescriptionRef = useRef<HTMLInputElement>(null);
-  const projectSiteURLRef = useRef<HTMLInputElement>(null);
-  const projectGitHubLinkRef = useRef<HTMLInputElement>(null);
-  const projectLogoURLRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
-      setAuth0User(user);
+      console.log('Upsert user' + user);
+      getAccessTokenSilently().then(token => {
+        Request('put', `users`, token, user).then(response => {
+          console.log(response);
+        });
+      });
     }
   }, [user]);
 
-  useEffect(() => {
-    getAccessTokenSilently().then(token => {
-      axios
-        .get(`${process.env.REACT_APP_API_ROUTE}/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    });
-  }, []);
+  // useEffect(() => {
+  //   getAccessTokenSilently().then(token => {
+  //     axios
+  //       .put(`${process.env.REACT_APP_API_ROUTE}/users`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         data: JSON.stringify(Auth0User),
+  //       })
+  //       .then(function (response) {
+  //         console.log(response);
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       });
+  //   });
+  // }, []);
 
   // Functions
   // function getUser() {
@@ -148,7 +151,7 @@ export function DashboardLayout(props: Props) {
   // }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <PageLoader />;
   }
   if (error) {
     return <div>Oops... {error.message}</div>;
@@ -345,6 +348,11 @@ export function DashboardLayout(props: Props) {
                   exact
                   path="/dashboard/projects"
                   component={ViewProjects}
+                />
+                <Route
+                  exact
+                  path="/dashboard/projects/:id"
+                  component={ViewProject}
                 />
                 <Route
                   exact
