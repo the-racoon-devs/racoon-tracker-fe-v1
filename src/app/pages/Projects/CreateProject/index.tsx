@@ -32,7 +32,7 @@ export function CreateProject(props: Props) {
   const projectGitHubURLRef = useRef<HTMLInputElement>(null);
   const projectLogoURLRef = useRef<HTMLInputElement>(null);
 
-  const createProject = e => {
+  function createProject(e) {
     e.preventDefault();
     console.log('Called func');
     getAccessTokenSilently().then(token => {
@@ -47,7 +47,7 @@ export function CreateProject(props: Props) {
         },
         data: JSON.stringify({
           name: projectNameRef.current?.value,
-          owner: Auth0User.email,
+          owner: JSON.parse(localStorage.userData)._id,
           description: projectDescriptionRef.current?.value,
           siteUrl: projectSiteURLRef.current?.value,
           githubUrl: projectGitHubURLRef.current?.value,
@@ -63,7 +63,7 @@ export function CreateProject(props: Props) {
           console.log(error);
         });
     });
-  };
+  }
 
   return (
     <>

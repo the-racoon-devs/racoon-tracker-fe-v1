@@ -137,22 +137,22 @@ export function Home(props: Props) {
     }
   }, [user]);
 
-  useEffect(() => {
-    // GET ACCESS_TOKEN FROM AUTH0
-    getAccessTokenSilently().then(token => {
-      console.log(token);
-      // API CALL
-      fetch(`https://tracker-api.racoon.dev/v1/users`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: Auth0User,
-      }).then(result => {
-        console.log(result);
-      });
-    });
-  }, [Auth0User]);
+  // useEffect(() => {
+  //   // GET ACCESS_TOKEN FROM AUTH0
+  //   getAccessTokenSilently().then(token => {
+  //     console.log(token);
+  //     // API CALL
+  //     fetch(`https://tracker-api.racoon.dev/v1/users`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: Auth0User,
+  //     }).then(result => {
+  //       console.log(result);
+  //     });
+  //   });
+  // }, [Auth0User]);
 
   return (
     <>

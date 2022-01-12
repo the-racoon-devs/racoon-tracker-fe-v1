@@ -98,6 +98,12 @@ export function DashboardLayout(props: Props) {
       getAccessTokenSilently().then(token => {
         Request('put', `users`, token, user).then(response => {
           console.log(response);
+          localStorage.userData = JSON.stringify(response.data.data);
+          // Get current user and store in localStorage
+          // Request('get', `users/${user.email}`, token).then(response => {
+          //   console.log(response.data.data);
+          //   localStorage.userData = response.data.data;
+          // });
         });
       });
     }
