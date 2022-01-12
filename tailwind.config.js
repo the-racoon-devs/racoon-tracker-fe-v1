@@ -31,6 +31,7 @@ module.exports = {
       sky: colors.sky,
       rose: colors.rose,
       blue: colors.blue,
+      red: colors.red,
     },
     spacing: {
       px: '1px',

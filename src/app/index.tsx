@@ -6,14 +6,13 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import { DashboardLayout } from './pages/DashboardLayout';
 import { Landing } from './pages/Landing';
-import { PageLoader } from 'utils/PageLoader';
+import { Authorize } from './pages/Authorize';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -29,6 +28,7 @@ export function App() {
 
       <Switch>
         <Route exact path="/landing" component={Landing} />
+        <Route exact path="/authorize" component={Authorize} />
         <Route path="/" component={DashboardLayout} />
       </Switch>
     </BrowserRouter>

@@ -354,6 +354,7 @@ export function DashboardLayout(props: Props) {
                 <Route exact path="/view-projects" component={ViewProjects} />
                 <Route exact path="/view-project/:id" component={ViewProject} />
                 <Route exact path="/create-project" component={CreateProject} />
+                <Redirect from="/" to="/home" />
               </Switch>
               {/* Layout children end */}
             </div>
@@ -645,6 +646,6 @@ export function DashboardLayout(props: Props) {
       </>
     );
   } else {
-    return <Redirect to="/" />;
+    return <Redirect to="/authorize" />;
   }
 }

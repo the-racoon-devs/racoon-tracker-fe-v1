@@ -52,49 +52,85 @@ export function ViewProject(props: Props) {
                 <section aria-labelledby="profile-overview-title">
                   <div className="rounded-lg bg-white overflow-hidden shadow">
                     <div className="bg-white p-6">
-                      <div className="pb-5">
-                        <h2
-                          id="applicant-information-title"
-                          className="text-lg leading-6 font-medium text-gray-900"
-                        >
-                          {JSON.parse(localStorage.projectInfo).name}
-                        </h2>
-                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                          {JSON.parse(localStorage.projectInfo).desc}
-                        </p>
+                      <div className="pb-5 flex">
+                        <div className="flex-shrink-0">
+                          <img
+                            className="h-10 w-10 rounded-full"
+                            src={JSON.parse(localStorage.projectInfo).logoUrl}
+                            alt="Project Logo"
+                          />
+                        </div>
+                        <div className="ml-4">
+                          <h2
+                            id="applicant-information-title"
+                            className="text-lg leading-6 font-medium text-gray-900"
+                          >
+                            {JSON.parse(localStorage.projectInfo).name}
+                          </h2>
+                          <p className="max-w-2xl text-sm text-gray-500">
+                            Owner ID{' '}
+                            {JSON.parse(localStorage.projectInfo).owner}
+                          </p>
+                        </div>
                       </div>
                       <div className="border-t border-gray-200 py-5">
                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                           <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">
-                              Application for
+                              Project URL
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900">
-                              Backend Developer
+                              {JSON.parse(localStorage.projectInfo).projectUrl}
                             </dd>
                           </div>
                           <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">
-                              Email address
+                              GitHub URL
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900">
-                              ricardocooper@example.com
+                              {JSON.parse(localStorage.projectInfo).githubUrl}
                             </dd>
                           </div>
                           <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">
-                              Salary expectation
+                              Members
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900">
-                              $120,000
+                              <div className="flex -space-x-2 overflow-hidden">
+                                <img
+                                  className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                                  src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                                <img
+                                  className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                                  src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                                <img
+                                  className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                                <img
+                                  className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+                                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                              </div>
                             </dd>
                           </div>
                           <div className="sm:col-span-1">
                             <dt className="text-sm font-medium text-gray-500">
-                              Phone
+                              Tickets
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900">
-                              +1 555-555-5555
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                3 Open
+                              </span>
+                              <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                5 Closed
+                              </span>
                             </dd>
                           </div>
                           <div className="sm:col-span-2">
@@ -102,45 +138,7 @@ export function ViewProject(props: Props) {
                               About
                             </dt>
                             <dd className="mt-1 text-sm text-gray-900">
-                              Fugiat ipsum ipsum deserunt culpa aute sint do
-                              nostrud anim incididunt cillum culpa consequat.
-                              Excepteur qui ipsum aliquip consequat sint. Sit id
-                              mollit nulla mollit nostrud in ea officia
-                              proident. Irure nostrud pariatur mollit ad
-                              adipisicing reprehenderit deserunt qui eu.
-                            </dd>
-                          </div>
-                          <div className="sm:col-span-2">
-                            <dt className="text-sm font-medium text-gray-500">
-                              Attachments
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-900">
-                              <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                {attachments.map(attachment => (
-                                  <li
-                                    key={attachment.name}
-                                    className="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
-                                  >
-                                    <div className="w-0 flex-1 flex items-center">
-                                      <PaperClipIcon
-                                        className="flex-shrink-0 h-5 w-5 text-gray-400"
-                                        aria-hidden="true"
-                                      />
-                                      <span className="ml-2 flex-1 w-0 truncate">
-                                        {attachment.name}
-                                      </span>
-                                    </div>
-                                    <div className="ml-4 flex-shrink-0">
-                                      <a
-                                        href={attachment.href}
-                                        className="font-medium text-blue-600 hover:text-blue-500"
-                                      >
-                                        Download
-                                      </a>
-                                    </div>
-                                  </li>
-                                ))}
-                              </ul>
+                              {JSON.parse(localStorage.projectInfo).description}
                             </dd>
                           </div>
                         </dl>
