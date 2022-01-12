@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const Request = async (type, api, token, data = {}) => {
-  console.log(token);
+  // console.log(token);
   // Axios
   var config = {
     method: type,

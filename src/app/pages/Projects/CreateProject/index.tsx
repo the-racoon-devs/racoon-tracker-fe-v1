@@ -5,26 +5,13 @@
  */
 import { Helmet } from 'react-helmet-async';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect, useRef, useState } from 'react';
-import { stringify } from 'querystring';
-const axios = require('axios');
+import { useRef } from 'react';
+import Request from 'utils/Request';
 
 interface Props {}
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 export function CreateProject(props: Props) {
-  const [Auth0User, setAuth0User] = useState<any>('');
-
-  const { getAccessTokenSilently, user } = useAuth0();
-
-  useEffect(() => {
-    if (user) {
-      setAuth0User(user);
-    }
-  }, [user]);
+  const { getAccessTokenSilently } = useAuth0();
 
   const projectNameRef = useRef<HTMLInputElement>(null);
   const projectDescriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -35,33 +22,20 @@ export function CreateProject(props: Props) {
   function createProject(e) {
     e.preventDefault();
     console.log('Called func');
-    getAccessTokenSilently().then(token => {
-      console.log(token);
-      // Axios
-      var config = {
-        method: 'post',
-        url: `${process.env.REACT_APP_API_ROUTE}/projects/create`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        data: JSON.stringify({
-          name: projectNameRef.current?.value,
-          owner: JSON.parse(localStorage.userData)._id,
-          description: projectDescriptionRef.current?.value,
-          siteUrl: projectSiteURLRef.current?.value,
-          githubUrl: projectGitHubURLRef.current?.value,
-          logoUrl: projectLogoURLRef.current?.value,
-        }),
-      };
 
-      axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    const data = {
+      name: projectNameRef.current?.value,
+      owner: JSON.parse(localStorage.userData)._id,
+      description: projectDescriptionRef.current?.value,
+      siteUrl: projectSiteURLRef.current?.value,
+      githubUrl: projectGitHubURLRef.current?.value,
+      logoUrl: projectLogoURLRef.current?.value,
+    };
+
+    getAccessTokenSilently().then(token => {
+      Request('post', `projects/create`, token, data).then(response => {
+        console.log(response);
+      });
     });
   }
 

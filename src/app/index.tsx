@@ -28,9 +28,8 @@ export function App() {
       </Helmet>
 
       <Switch>
-        <Route exact path="/" component={Landing} />
-        <Route exact path="/loader" component={PageLoader} />
-        <Route path="/dashboard" component={DashboardLayout} />
+        <Route exact path="/landing" component={Landing} />
+        <Route path="/" component={DashboardLayout} />
       </Switch>
     </BrowserRouter>
   );

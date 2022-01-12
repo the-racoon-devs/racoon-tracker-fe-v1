@@ -20,6 +20,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { PageLoader } from 'utils/PageLoader';
 import { ViewProject } from '../Projects/ViewProject';
 import Request from 'utils/Request';
+import axios from 'axios';
 
 const twuser = {
   name: 'Tom Cook',
@@ -28,8 +29,8 @@ const twuser = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 };
 const dashboardNavigation = [
-  { name: 'Home', href: '/dashboard/home', current: false },
-  { name: 'Projects', href: '/dashboard/projects', current: false },
+  { name: 'Home', href: '/home', current: false },
+  { name: 'Projects', href: '/view-projects', current: false },
   // { name: 'Profile', href: '/dashboard/profile', current: false },
 ];
 const userNavigation = [
@@ -109,23 +110,23 @@ export function DashboardLayout(props: Props) {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   getAccessTokenSilently().then(token => {
-  //     axios
-  //       .put(`${process.env.REACT_APP_API_ROUTE}/users`, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         data: JSON.stringify(Auth0User),
-  //       })
-  //       .then(function (response) {
-  //         console.log(response);
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error);
-  //       });
-  //   });
-  // }, []);
+  useEffect(() => {
+    getAccessTokenSilently().then(token => {
+      axios
+        .get(`${process.env.REACT_APP_API_ROUTE}/users`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          // data: JSON.stringify(Auth0User),
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+  }, []);
 
   // Functions
   // function getUser() {
@@ -196,7 +197,7 @@ export function DashboardLayout(props: Props) {
                         <div className="hidden md:block">
                           <div className="ml-4 flex items-center md:ml-6">
                             <Link
-                              to="/dashboard/projects/create"
+                              to="/create-project"
                               className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none"
                             >
                               Create Project
@@ -348,24 +349,11 @@ export function DashboardLayout(props: Props) {
               {/* Layout children start */}
               {/* {user ? <pre>{user}</pre> : 'User loading'} */}
               <Switch>
-                <Route exact path="/dashboard/home" component={Home} />
+                <Route exact path="/home" component={Home} />
                 <Route exact path="/dashboard/settings" component={Settings} />
-                <Route
-                  exact
-                  path="/dashboard/projects"
-                  component={ViewProjects}
-                />
-                <Route
-                  exact
-                  path="/dashboard/projects/:id"
-                  component={ViewProject}
-                />
-                <Route
-                  exact
-                  path="/dashboard/projects/create"
-                  component={CreateProject}
-                />
-                <Redirect exact from="/dashboard" to="/dashboard/home" />
+                <Route exact path="/view-projects" component={ViewProjects} />
+                <Route exact path="/view-project/:id" component={ViewProject} />
+                <Route exact path="/create-project" component={CreateProject} />
               </Switch>
               {/* Layout children end */}
             </div>

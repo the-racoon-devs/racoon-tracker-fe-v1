@@ -29,7 +29,7 @@ export function ViewProject(props: Props) {
       getAccessTokenSilently().then(token => {
         Request('get', `projects/${id}`, token).then(response => {
           console.log(response);
-          localStorage.projectInfo = response.data.data;
+          localStorage.projectInfo = JSON.stringify(response.data.data);
           setProjectInfoRequestStatus(true);
         });
       });
@@ -57,10 +57,10 @@ export function ViewProject(props: Props) {
                           id="applicant-information-title"
                           className="text-lg leading-6 font-medium text-gray-900"
                         >
-                          {localStorage.projectInfo.email}
+                          {JSON.parse(localStorage.projectInfo).name}
                         </h2>
                         <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                          Personal details and application.
+                          {JSON.parse(localStorage.projectInfo).desc}
                         </p>
                       </div>
                       <div className="border-t border-gray-200 py-5">
