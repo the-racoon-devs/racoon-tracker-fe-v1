@@ -12,6 +12,10 @@ import {
   ViewBoardsIcon,
   ViewListIcon,
 } from '@heroicons/react/outline';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useState, useEffect } from 'react';
+import Request from 'utils/Request';
+import { Helmet } from 'react-helmet-async';
 
 interface Props {}
 
@@ -54,102 +58,34 @@ const items = [
   },
 ];
 
-const projects = [
-  {
-    id: 1,
-    title: 'GraphQL API',
-    initials: 'GA',
-    team: 'Engineering',
-    members: [
-      {
-        name: 'Dries Vincent',
-        handle: 'driesvincent',
-        imageUrl:
-          'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Lindsay Walton',
-        handle: 'lindsaywalton',
-        imageUrl:
-          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Courtney Henry',
-        handle: 'courtneyhenry',
-        imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Tom Cook',
-        handle: 'tomcook',
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-    ],
-    totalMembers: 12,
-    lastUpdated: 'March 17, 2020',
-    pinned: true,
-    bgColorClass: 'bg-pink-600',
-  },
-  // More projects...
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export function ViewProjects(props: Props) {
+  const [projects, setProjects] = useState<any>({ owned: [], assigned: [] });
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    getAccessTokenSilently().then(token => {
+      console.log(JSON.parse(localStorage.userData)._id);
+      Request(
+        'get',
+        `users/${JSON.parse(localStorage.userData)._id}/projects`,
+        token,
+      )
+        .then(response => {
+          console.log(response.data.data);
+          setProjects(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  }, [getAccessTokenSilently]);
+
   return (
     <>
-      {/* <div className="bg-white overflow-hidden shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h2 className="text-lg font-medium text-gray-900">Projects</h2>
-          {/* <p className="mt-1 text-sm text-gray-500">
-          Here's a list of projects you're a member of.
-        </p> 
-          <ul className="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {items.map((item, itemIdx) => (
-              <li key={itemIdx} className="flow-root">
-                <div className="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div
-                    className={classNames(
-                      item.background,
-                      'flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg',
-                    )}
-                  >
-                    <item.icon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-900">
-                      <a href="#" className="focus:outline-none">
-                        <span className="absolute inset-0" aria-hidden="true" />
-                        {item.title}
-                        <span aria-hidden="true"> &rarr;</span>
-                      </a>
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 flex">
-            <a
-              href="#"
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Or start from an empty project
-              <span aria-hidden="true"> &rarr;</span>
-            </a>
-          </div>
-        </div>
-      </div> */}
-
       <main className="-mt-24 pb-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-0">
           <h1 className="sr-only">Projects</h1>
@@ -162,96 +98,102 @@ export function ViewProjects(props: Props) {
                   <h2 className="text-lg font-medium text-gray-900">
                     Projects
                   </h2>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Here's a list of projects you're a member of.
+                  <p className="mt-8 text-sm text-gray-500">
+                    Here's a list of projects that you own.
                   </p>
-                  <div className="hidden mt-8 sm:block">
-                    <div className="align-middle inline-block min-w-full border-b border-gray-200">
-                      <table className="min-w-full">
-                        <thead>
-                          <tr className="border-t border-gray-200">
-                            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              <span className="lg:pl-2">Project</span>
-                            </th>
-                            <th className="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Members
-                            </th>
-                            <th className="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Last updated
-                            </th>
-                            <th className="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" />
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-100">
-                          {projects.map(project => (
-                            <tr key={project.id}>
-                              <td className="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
-                                <div className="flex items-center space-x-3 lg:pl-2">
-                                  <div
-                                    className={classNames(
-                                      project.bgColorClass,
-                                      'flex-shrink-0 w-2.5 h-2.5 rounded-full',
-                                    )}
+                  <div className="hidden mt-4 sm:block">
+                    <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {projects.owned.length > 0 ? (
+                          projects.owned.map(item => (
+                            <div
+                              key={item._id}
+                              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                            >
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src={item.logoUrl}
+                                  alt=""
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <a href="#" className="focus:outline-none">
+                                  <span
+                                    className="absolute inset-0"
                                     aria-hidden="true"
                                   />
-                                  <a
-                                    href="#"
-                                    className="truncate hover:text-gray-600"
-                                  >
-                                    <span>
-                                      {project.title}{' '}
-                                      <span className="text-gray-500 font-normal">
-                                        in {project.team}
-                                      </span>
-                                    </span>
-                                  </a>
-                                </div>
-                              </td>
-                              <td className="px-6 py-3 text-sm text-gray-500 font-medium">
-                                <div className="flex items-center space-x-2">
-                                  <div className="flex flex-shrink-0 -space-x-1">
-                                    {project.members.map(member => (
-                                      <img
-                                        key={member.handle}
-                                        className="max-w-none h-6 w-6 rounded-full ring-2 ring-white"
-                                        src={member.imageUrl}
-                                        alt={member.name}
-                                      />
-                                    ))}
-                                  </div>
-                                  {project.totalMembers >
-                                  project.members.length ? (
-                                    <span className="flex-shrink-0 text-xs leading-5 font-medium">
-                                      +
-                                      {project.totalMembers -
-                                        project.members.length}
-                                    </span>
-                                  ) : null}
-                                </div>
-                              </td>
-                              <td className="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                                {project.lastUpdated}
-                              </td>
-                              <td className="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-                                <a
-                                  href="#"
-                                  className="text-indigo-600 hover:text-indigo-900"
-                                >
-                                  Edit
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {item.name}
+                                  </p>
+                                  <p className="text-sm  text-gray-500 truncate">
+                                    {item.description}
+                                  </p>
                                 </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center">
+                            <p className="text-sm font-medium text-gray-900">
+                              You don't own any projects.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mt-8 text-sm text-gray-500">
+                    Here's a list of projects that you're a member of.
+                  </p>
+                  <div className="hidden mt-4 sm:block">
+                    <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {projects.assigned.length > 0 ? (
+                          projects.assigned.map(item => (
+                            <div
+                              key={item._id}
+                              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                            >
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src={item.logoUrl}
+                                  alt=""
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <a href="#" className="focus:outline-none">
+                                  <span
+                                    className="absolute inset-0"
+                                    aria-hidden="true"
+                                  />
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {item.name}
+                                  </p>
+                                  <p className="text-sm  text-gray-500 truncate">
+                                    {item.description}
+                                  </p>
+                                </a>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center">
+                            <p className="text-sm font-medium text-gray-900">
+                              You don't own any projects.
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-4 flex">
                     <a
-                      href="#"
+                      href="/create-project"
                       className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
-                      Or start a new project
+                      Start a new project
                       <span aria-hidden="true"> &rarr;</span>
                     </a>
                   </div>
@@ -273,7 +215,7 @@ export function ViewProjects(props: Props) {
 
                   <div className="mt-4 flex">
                     <a
-                      href="#"
+                      href="/create-project"
                       className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Or start a new project

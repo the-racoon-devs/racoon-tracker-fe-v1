@@ -1,9 +1,7 @@
 const axios = require('axios');
 
 const Request = async (type, api, token, data = {}) => {
-  // console.log(token);
-  // Axios
-  var config = {
+  return axios({
     method: type,
     url: `${process.env.REACT_APP_API_ROUTE}/${api}`,
     headers: {
@@ -11,11 +9,9 @@ const Request = async (type, api, token, data = {}) => {
       'Content-Type': 'application/json',
     },
     data: JSON.stringify(data),
-  };
-
-  return axios(config)
+  })
     .then(function (response) {
-      console.log(response);
+      // console.log(response);
       return response;
     })
     .catch(function (error) {
