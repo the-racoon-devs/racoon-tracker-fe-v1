@@ -36,8 +36,8 @@ ReactDOM.render(
     domain="the-racoon-devs.eu.auth0.com"
     clientId="vdIHB5x73Jm6ZtuxqENWK6Vr6KFFrYGq"
     redirectUri={window.location.origin}
-    // audience="https://tracker-api.racoon.dev"
-    audience="http://localhost:5000"
+    audience="https://tracker-api.racoon.dev"
+    // audience="http://localhost:5000"
     scope="openid profile email"
   >
     <Provider store={store}>
