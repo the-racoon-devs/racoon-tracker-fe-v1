@@ -12,6 +12,8 @@ interface Props {}
 
 export function ViewProjects(props: Props) {
   const [projects, setProjects] = useState<any>({ owned: [], assigned: [] });
+  const [projectsLoading, setProjectsLoading] = useState(true);
+
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -23,8 +25,11 @@ export function ViewProjects(props: Props) {
         token,
       )
         .then(response => {
-          console.log(response.data.data);
-          setProjects(response.data.data);
+          if (response.status !== 201) {
+            setProjects(response.data.data);
+            console.log(projects);
+          }
+          setProjectsLoading(false);
         })
         .catch(error => {
           console.log(error);
@@ -46,99 +51,107 @@ export function ViewProjects(props: Props) {
                   <h2 className="text-lg font-medium text-gray-900">
                     Projects
                   </h2>
-                  <p className="text-sm text-gray-500">
-                    Here's a list of projects that you own.
-                  </p>
-                  <div className="hidden mt-4 sm:block">
-                    <div className="align-middle inline-block min-w-full pb-8 border-b border-gray-200">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        {projects.owned.length > 0 ? (
-                          projects.owned.map(item => (
-                            <div
-                              key={item._id}
-                              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <div className="flex-shrink-0">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={item.logoUrl}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <Link
-                                  to={`/view-project/${item._id}`}
-                                  className="focus:outline-none"
-                                >
-                                  <span
-                                    className="absolute inset-0"
-                                    aria-hidden="true"
-                                  />
-                                  <p className="text-sm font-medium text-gray-900">
-                                    {item.name}
-                                  </p>
-                                  <p className="text-sm  text-gray-500 truncate">
-                                    {item.description}
-                                  </p>
-                                </Link>
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              You don't own any projects.
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-sm text-gray-500">
-                    Here's a list of projects that you're a member of.
-                  </p>
-                  <div className="hidden mt-4 sm:block">
-                    <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        {projects.assigned.length > 0 ? (
-                          projects.assigned.map(item => (
-                            <div
-                              key={item._id}
-                              className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                            >
-                              <div className="flex-shrink-0">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={item.logoUrl}
-                                  alt=""
-                                />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <a href="#" className="focus:outline-none">
-                                  <span
-                                    className="absolute inset-0"
-                                    aria-hidden="true"
-                                  />
-                                  <p className="text-sm font-medium text-gray-900">
-                                    {item.name}
-                                  </p>
-                                  <p className="text-sm  text-gray-500 truncate">
-                                    {item.description}
-                                  </p>
-                                </a>
+                  {projectsLoading ? (
+                    <div>Loading</div>
+                  ) : projects.owned.length + projects.assigned.length > 0 ? (
+                    <div id="projects">
+                      {projects.owned.length > 0 && (
+                        <div id="owned">
+                          <p className="mt-8 text-sm text-gray-500">
+                            Here's a list of projects that you own.
+                          </p>
+                          <div className="hidden mt-4 sm:block">
+                            <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
+                              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                {projects.owned.map(project => (
+                                  <div
+                                    key={project._id}
+                                    className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                  >
+                                    <div className="flex-shrink-0">
+                                      <img
+                                        className="h-10 w-10 rounded-full"
+                                        src={project.logoUrl}
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <a
+                                        href={`/view-project/${project._id}`}
+                                        className="focus:outline-none"
+                                      >
+                                        <span
+                                          className="absolute inset-0"
+                                          aria-hidden="true"
+                                        />
+                                        <p className="text-sm font-medium text-gray-900">
+                                          {project.name}
+                                        </p>
+                                        <p className="text-sm  text-gray-500 truncate">
+                                          {project.description}
+                                        </p>
+                                      </a>
+                                    </div>
+                                  </div>
+                                ))}
                               </div>
                             </div>
-                          ))
-                        ) : (
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              You haven't been added to any projects.
-                            </p>
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
+
+                      {projects.assigned.length > 0 && (
+                        <div id="assigned">
+                          <p className="mt-8 text-sm text-gray-500">
+                            Here's a list of projects that you're a member of.
+                          </p>
+                          <div className="hidden mt-4 sm:block">
+                            <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
+                              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                {projects.assigned.map(project => (
+                                  <div
+                                    key={project._id}
+                                    className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                  >
+                                    <div className="flex-shrink-0">
+                                      <img
+                                        className="h-10 w-10 rounded-full"
+                                        src={project.logoUrl}
+                                        alt=""
+                                      />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <a
+                                        href={`/view-project/${project._id}`}
+                                        className="focus:outline-none"
+                                      >
+                                        <span
+                                          className="absolute inset-0"
+                                          aria-hidden="true"
+                                        />
+                                        <p className="text-sm font-medium text-gray-900">
+                                          {project.name}
+                                        </p>
+                                        <p className="text-sm  text-gray-500 truncate">
+                                          {project.description}
+                                        </p>
+                                      </a>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  ) : (
+                    <div className="text-left mt-5">
+                      <p className="text-sm  text-gray-500">
+                        You are not a member of any project.
+                      </p>
+                    </div>
+                  )}
                   <div className="mt-4 flex">
                     <a
                       href="/create-project"
