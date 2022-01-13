@@ -15,6 +15,8 @@ interface Props {}
 export function ViewProject(props: Props) {
   const { user, getAccessTokenSilently } = useAuth0();
   const { id } = useParams<{ id: string }>();
+  const [tickets, setTickets] = useState<any>([]);
+  const [ticketsLoading, setTicketsLoading] = useState(true);
   const [ProjectInfoRequestStatus, setProjectInfoRequestStatus] =
     useState(false);
 
@@ -26,11 +28,19 @@ export function ViewProject(props: Props) {
           console.log(response);
           localStorage.projectInfo = JSON.stringify(response.data.data);
           // Getting tickets
-          Request('get', `projects/${id}/tickets`, token).then(response => {
-            console.log(response);
-            localStorage.projectTickets = JSON.stringify(response.data.data);
-            setProjectInfoRequestStatus(true);
-          });
+
+          Request('get', `projects/61df38778b56b4d805ea738c/tickets`, token)
+            .then(response => {
+              if (response.status !== 201) {
+                setTickets(response.data.data);
+                console.log('Tickets State, ', tickets);
+              }
+              setTicketsLoading(false);
+              setProjectInfoRequestStatus(true);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         });
       });
     }
@@ -162,7 +172,7 @@ export function ViewProject(props: Props) {
                 <section aria-labelledby="profile-overview-title">
                   <div className="rounded-lg bg-white overflow-hidden shadow">
                     <div className="bg-white p-6">
-                      {JSON.parse(localStorage.projectTickets).length > 0 ? (
+                      {tickets.length > 0 ? (
                         <div className="flex flex-col">
                           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -192,7 +202,7 @@ export function ViewProject(props: Props) {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                       >
-                                        Role
+                                        Status
                                       </th>
                                       <th
                                         scope="col"
@@ -203,39 +213,37 @@ export function ViewProject(props: Props) {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {localStorage.projectTickets.map(
-                                      (person, personIdx) => (
-                                        <tr
-                                          key={person.email}
-                                          className={
-                                            personIdx % 2 === 0
-                                              ? 'bg-white'
-                                              : 'bg-gray-50'
-                                          }
-                                        >
-                                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {person.name}
-                                          </td>
-                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {person.title}
-                                          </td>
-                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {person.email}
-                                          </td>
-                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {person.role}
-                                          </td>
-                                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a
-                                              href="#"
-                                              className="text-indigo-600 hover:text-indigo-900"
-                                            >
-                                              Edit
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      ),
-                                    )}
+                                    {tickets.map((ticket, index) => (
+                                      <tr
+                                        key={index}
+                                        className={
+                                          index % 2 === 0
+                                            ? 'bg-white'
+                                            : 'bg-gray-50'
+                                        }
+                                      >
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                          {ticket.title}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                          {ticket.description}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                          {ticket.createdBy}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                          {ticket.statusLabel}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                          <a
+                                            href="#"
+                                            className="text-indigo-600 hover:text-indigo-900"
+                                          >
+                                            Edit
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    ))}
                                   </tbody>
                                 </table>
                               </div>
