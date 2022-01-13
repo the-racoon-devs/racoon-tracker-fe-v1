@@ -1,151 +1,108 @@
-<img width="914" alt="React Boilerplate Meets CRA" src="https://user-images.githubusercontent.com/3495307/80274591-2d5daa00-86e4-11ea-8fba-404f1cdba87e.png" align="center">
-<br />
+ ![Asset 1](https://user-images.githubusercontent.com/57835412/149372294-813eee74-0d65-4605-8811-560b54034f57.png)
 
-<div align="center" >Crafted for <strong>highly scalable</strong> & <strong>performant</strong> and <strong>easily maintainable</strong> React.js applications <br /> 
-with a focus on  
-<strong>best DX</strong> and <strong>best practices</strong>.
-</div>
 
-<br />
 
-<div align="center">
-  <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/actions?query=workflow%3Abuild">
-    <img src="https://github.com/react-boilerplate/react-boilerplate-cra-template/workflows/build/badge.svg" alt="Build Status" />
-  </a>
-  <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/actions?query=workflow%3Atests">
-    <img src="https://github.com/react-boilerplate/react-boilerplate-cra-template/workflows/test/badge.svg" alt="Tests Status" />
-  </a>
-  <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/actions?query=workflow%release">
-    <img src="https://github.com/react-boilerplate/react-boilerplate-cra-template/workflows/release/badge.svg" alt="Release Status" />
-  </a>
-</div>
+### Overview of Our Submission
 
-<div align="center">
-  <a href="https://coveralls.io/github/react-boilerplate/react-boilerplate-cra-template">
-    <img src="https://coveralls.io/repos/github/react-boilerplate/react-boilerplate-cra-template/badge.svg?branch=master" alt="Coverage" />
-  </a>
-  <a href="https://opencollective.com/react-boilerplate">
-    <img src="https://opencollective.com/react-boilerplate/backers/badge.svg" alt="Backers" />
-  </a>
-  <a href="https://opencollective.com/react-boilerplate/">
-    <img src="https://opencollective.com/react-boilerplate/sponsors/badge.svg" alt="Sponsors" />
-  </a>
-</div>
+The "**Racoon Tracker**" is an issue/project tracker that helps ease software delivery by making the whole process of tracking and keeping up with bug fixes seamless and easy.
 
-<br />
+**Submit, Track & Resolve bugs in a snap!**
 
----
 
-The official [Create React App](https://github.com/facebook/create-react-app) template of the `discontinued` [React Boilerplate](https://github.com/react-boilerplate/react-boilerplate)
+---- 
 
-Start your `create-react-app` projects in seconds with the best, industry-standard tools and practices made ready for you.
 
-**📚 Documentation:** [Gitbook](https://cansahin.gitbook.io/react-boilerplate-cra-template/)
+### Submission Category
+Choose Our Own Adventure
 
-**🎨 Check the example app:** [Demonstrating the features](https://react-boilerplate.github.io/react-boilerplate-cra-template/)
 
-**📂 Browse in VS Code:** [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/react-boilerplate/react-boilerplate-cra-template)
+----
 
-**📦 Package:** [npm](https://www.npmjs.com/package/cra-template-rb)
+### Links to Code
+Front End React App: 
+https://github.com/the-racoon-devs/racoon-tracker-fe-v1
 
-![version](https://img.shields.io/npm/v/cra-template-rb)
-![version](https://img.shields.io/npm/dm/cra-template-rb)
+Back End Rest API: 
+https://github.com/the-racoon-devs/racoon-tracker-api-v1
 
----
+Published API Documentation:
+https://documenter.getpostman.com/view/18928487/UVXeteBv
 
-## Install & Start
 
-⚠️ Using [Yarn Package Manager](https://yarnpkg.com) is recommended over `npm`.
+----
 
-Create React App with the template
 
-```shell
-npx create-react-app --template cra-template-rb my-app
-```
+### Our Tech Stack
+#### **Design System**
 
-Start and check our example app, if you want
+Our design system is entirely built on Tailwind's beautiful CSS framework and UI kit.
 
-```shell
-cd my-app
-yarn start
-```
+![](https://i.imgur.com/0ZAcwQj.png)
 
-Remove the example app to start your project!
 
-```shell
-yarn cleanAndSetup
-```
+#### **Front-End**
 
----
+Our front-end is built on a custom CRA boilerplate with React.js and TypeScript.
 
-## Features
+![](https://i.imgur.com/6khAPym.png)
 
-> This project is **NOT** a framework, UI component library or a design system. The only purpose of this template is to assist you starting your CRA app with a solid tool stack and development patterns. It's 100% customizable. After you start your journey and once you understand the concepts offered here you should personalize your code accordingly instead of being tied to the starter project.
->
-> You can add or remove literally anything and use whichever library or tools you prefer.
+#### **Back-End**
 
-<dl>
+Our back-end is built on Express.js with the ability to scale quickly and add more functionality in the form of microservices.
 
-  <dt>Predictable state management</dt>
-  <dd>Unidirectional data flow allows for change logging and time travel debugging.</dd>
+![](https://i.imgur.com/7TcM6u3.png)
 
-  <dt>Instant feedback</dt>
-  <dd>Enjoy the best DX (Developer eXperience) and code your app at the speed of thought! Your saved changes to the CSS and JS are reflected instantaneously without refreshing the page. Preserve application state even when you update something in the underlying code!</dd>
 
-  <dt>Next generation CSS</dt>
-  <dd>Write composable CSS that's co-located with your components for complete modularity. Unique generated class names keep the specificity low while eliminating style clashes. Ship only the styles that are on the page for the best performance.</dd>
+#### **Database**
 
-  <dt>Industry-standard routing</dt>
-  <dd>It's natural to want to add pages (e.g. `/about`) to your application, and routing makes this possible.</dd>
+MongoDB Atlas provides cloud database service using AWS, Azure, and Google Cloud. It also has various automation tools for performing various backend functionalities and comes with visualization tools. The services that are used in this project are described below.
 
-  <dt>Industry-standard i18n internationalization support</dt>
-  <dd>Scalable apps need to support multiple languages, easily add and support multiple languages.</dd>
+Atlas is used as the main cloud database for storing the user information and project information along with it's tickets.
 
-  <dt>Typescript</dt>
-  <dd>Typescript is the key to scalability. Build self-documented code, easy-to-debug code and create maintainable large applications and codebases with a highly productive development experience.</dd>
+![](https://i.imgur.com/ppT8DJc.png)
 
-  <dt>Quick scaffolding</dt>
-  <dd>Create components, containers, routes, selectors and sagas - and their tests - right from the CLI!</dd>
 
-  <dt>Static code analysis</dt>
-  <dd>Focus on writing new features without worrying about formatting or code quality. With the right editor setup, your code will automatically be formatted and linted as you work.</dd>
+#### **Deployments**
 
-  <dt>SEO</dt>
-  <dd>We support SEO (document head tags management) for search engines that support indexing of JavaScript content. (eg. Google)</dd>
-</dl>
+Our React Front End is deployed over Netlify's Jamstack App Deployment platform.
 
-But wait... there's more!
+Our Express Back End is deployed over Railway.app cloud serverless platform.
 
-- _The best test setup:_ Automatically guarantee code quality and non-breaking
-  changes. (Seen a react app with 100% test coverage before?)
-- _The fastest fonts:_ Say goodbye to vacant text.
-- _Stay fast_: Profile your app's performance from the comfort of your command
-  line!
+---- 
 
-<sub><i>Keywords: Create React App, React Boilerplate, Custom Template, Typescript, React.js, Redux, Hot Reloading, ESNext, Babel, react-router, `styled-components`, redux-saga, FontFaceObserver</i></sub>
 
-## Contributors
+## Screenshots:
+ 
+![](https://i.imgur.com/SEi6s8J.png)
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/Can-Sahin"><img src="https://avatars2.githubusercontent.com/u/33245689?s=80" width="80px;" alt=""/><br /><sub><b>Can Sahin</b></sub></a><br /><a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=Can-Sahin" title="Code">💻</a> <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=Can-Sahin" title="Documentation">📖</a> <a href="#ideas-Can-Sahin" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/pulls?q=is%3Apr+reviewed-by%3ACan-Sahin" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=Can-Sahin" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/receptiryaki"><img src="https://avatars0.githubusercontent.com/u/3495307?s=80" width="80px;" alt=""/><br /><sub><b>Recep Tiryaki</b></sub></a><br /><a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=receptiryaki" title="Code">💻</a> <a href="#ideas-receptiryaki" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-receptiryaki" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/mogsdad"><img src="https://avatars3.githubusercontent.com/u/1707731?s=80" width="80px;" alt=""/><br /><sub><b>David Bingham</b></sub></a><br /><a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=mogsdad" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/lourensdev"><img src="https://avatars.githubusercontent.com/u/5746141?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Lourens de Villiers</b></sub></a><br /><a href="https://github.com/react-boilerplate/react-boilerplate-cra-template/commits?author=lourensdev" title="Documentation">📖</a></td>
-  </tr>
-</table>
+--------------
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+![](https://i.imgur.com/BbXKvmT.png)
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+--------------
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+![](https://i.imgur.com/FpwhNGz.png)
 
-## License
+--------------
 
-This project is licensed under the MIT license, Copyright (c) 2019 Maximilian Stoiber.
-For more information see `LICENSE.md`.
+![](https://i.imgur.com/QPBM3If.png)
+
+--------------
+
+![](https://i.imgur.com/Q93xXdv.png)
+
+--------------
+
+![](https://i.imgur.com/XtURRdW.png)
+
+
+--------------------------------------
+
+### Collaborators
+@fabianferno, [Twitter](https://twitter.com/fabianferno)
+@thedanielmark, [Twitter](https://twitter.com/the_danielmark)
+
+--------------------------------------
+
+### Additional Resources / Info
+React CRA Boilerplate: https://github.com/react-boilerplate/react-boilerplate-cra-template
