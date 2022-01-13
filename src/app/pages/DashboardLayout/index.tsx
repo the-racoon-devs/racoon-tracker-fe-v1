@@ -21,6 +21,7 @@ import { PageLoader } from 'utils/PageLoader';
 import { ViewProject } from '../Projects/ViewProject';
 import Request from 'utils/Request';
 import axios from 'axios';
+import { CreateTicket } from '../Projects/CreateTicket';
 
 const twuser = {
   name: 'Tom Cook',
@@ -354,6 +355,11 @@ export function DashboardLayout(props: Props) {
                 <Route exact path="/view-projects" component={ViewProjects} />
                 <Route exact path="/view-project/:id" component={ViewProject} />
                 <Route exact path="/create-project" component={CreateProject} />
+                <Route
+                  exact
+                  path="/create-ticket/:id"
+                  component={CreateTicket}
+                />
                 <Redirect from="/" to="/home" />
               </Switch>
               {/* Layout children end */}

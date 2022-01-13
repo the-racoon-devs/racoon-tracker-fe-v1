@@ -184,31 +184,25 @@ export function ViewProject(props: Props) {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                       >
-                                        Name
-                                      </th>
-                                      <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                      >
                                         Title
                                       </th>
                                       <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                       >
-                                        Email
+                                        Description
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        Assigned To
                                       </th>
                                       <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                       >
                                         Status
-                                      </th>
-                                      <th
-                                        scope="col"
-                                        className="relative px-6 py-3"
-                                      >
-                                        <span className="sr-only">Edit</span>
                                       </th>
                                     </tr>
                                   </thead>
@@ -229,18 +223,10 @@ export function ViewProject(props: Props) {
                                           {ticket.description}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                          {ticket.createdBy}
+                                          {ticket.assignedTo}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                           {ticket.statusLabel}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                          <a
-                                            href="#"
-                                            className="text-indigo-600 hover:text-indigo-900"
-                                          >
-                                            Edit
-                                          </a>
                                         </td>
                                       </tr>
                                     ))}
