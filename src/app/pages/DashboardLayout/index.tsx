@@ -110,23 +110,23 @@ export function DashboardLayout(props: Props) {
     }
   }, [user]);
 
-  useEffect(() => {
-    getAccessTokenSilently().then(token => {
-      axios
-        .get(`${process.env.REACT_APP_API_ROUTE}/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          // data: JSON.stringify(Auth0User),
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    });
-  }, []);
+  // useEffect(() => {
+  //   getAccessTokenSilently().then(token => {
+  //     axios
+  //       .get(`${process.env.REACT_APP_API_ROUTE}/users`, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         // data: JSON.stringify(Auth0User),
+  //       })
+  //       .then(function (response) {
+  //         console.log(response);
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       });
+  //   });
+  // }, []);
 
   // Functions
   // function getUser() {

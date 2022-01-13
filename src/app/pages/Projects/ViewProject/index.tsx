@@ -4,17 +4,11 @@
  *
  */
 import { Helmet } from 'react-helmet-async';
-import { PaperClipIcon } from '@heroicons/react/solid';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Request from 'utils/Request';
 import { useAuth0 } from '@auth0/auth0-react';
 import { PageLoader } from 'utils/PageLoader';
-
-const attachments = [
-  { name: 'resume_front_end_developer.pdf', href: '#' },
-  { name: 'coverletter_front_end_developer.pdf', href: '#' },
-];
 
 interface Props {}
 
@@ -27,10 +21,16 @@ export function ViewProject(props: Props) {
   useEffect(() => {
     if (user) {
       getAccessTokenSilently().then(token => {
+        // Getting project info
         Request('get', `projects/${id}`, token).then(response => {
           console.log(response);
           localStorage.projectInfo = JSON.stringify(response.data.data);
-          setProjectInfoRequestStatus(true);
+          // Getting tickets
+          Request('get', `projects/${id}/tickets`, token).then(response => {
+            console.log(response);
+            localStorage.projectTickets = JSON.stringify(response.data.data);
+            setProjectInfoRequestStatus(true);
+          });
         });
       });
     }
@@ -40,14 +40,14 @@ export function ViewProject(props: Props) {
     return (
       <>
         <Helmet>
-          <title>Dashboard</title>
+          <title>{JSON.parse(localStorage.projectInfo).name}</title>
         </Helmet>
         <main className="-mt-24 pb-8">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-0">
             <h1 className="sr-only">Profile</h1>
             {/* Main 3 column grid */}
             <div className="grid grid-cols-1 gap-4 items-start lg:grid-cols-3 lg:gap-8">
-              {/* Left column */}
+              {/* Left column - Project Info */}
               <div className="grid grid-cols-1 gap-4 lg:col-span-2">
                 <section aria-labelledby="profile-overview-title">
                   <div className="rounded-lg bg-white overflow-hidden shadow">
@@ -153,6 +153,103 @@ export function ViewProject(props: Props) {
                 <section aria-labelledby="profile-overview-title">
                   <div className="rounded-lg bg-white overflow-hidden shadow">
                     <div className="bg-white p-6">Right Panel</div>
+                  </div>
+                </section>
+              </div>
+
+              {/* Left column - Tickets */}
+              <div className="grid grid-cols-1 gap-4 lg:col-span-2">
+                <section aria-labelledby="profile-overview-title">
+                  <div className="rounded-lg bg-white overflow-hidden shadow">
+                    <div className="bg-white p-6">
+                      {JSON.parse(localStorage.projectTickets).length > 0 ? (
+                        <div className="flex flex-col">
+                          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                  <thead className="bg-gray-50">
+                                    <tr>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        Name
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        Title
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        Email
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        Role
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="relative px-6 py-3"
+                                      >
+                                        <span className="sr-only">Edit</span>
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {localStorage.projectTickets.map(
+                                      (person, personIdx) => (
+                                        <tr
+                                          key={person.email}
+                                          className={
+                                            personIdx % 2 === 0
+                                              ? 'bg-white'
+                                              : 'bg-gray-50'
+                                          }
+                                        >
+                                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {person.name}
+                                          </td>
+                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {person.title}
+                                          </td>
+                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {person.email}
+                                          </td>
+                                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {person.role}
+                                          </td>
+                                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a
+                                              href="#"
+                                              className="text-indigo-600 hover:text-indigo-900"
+                                            >
+                                              Edit
+                                            </a>
+                                          </td>
+                                        </tr>
+                                      ),
+                                    )}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">
+                            You don't own any projects.
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </section>
               </div>

@@ -3,64 +3,12 @@
  * ViewProjects
  *
  */
-import * as React from 'react';
-import {
-  CalendarIcon,
-  ClockIcon,
-  PhotographIcon,
-  TableIcon,
-  ViewBoardsIcon,
-  ViewListIcon,
-} from '@heroicons/react/outline';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Request from 'utils/Request';
-import { Helmet } from 'react-helmet-async';
 
 interface Props {}
-
-const items = [
-  {
-    title: 'Create a List',
-    description: "Another to-do system you'll try but eventually give up on.",
-    icon: ViewListIcon,
-    background: 'bg-pink-500',
-  },
-  {
-    title: 'Create a Calendar',
-    description: "Stay on top of your deadlines, or don't — it's up to you.",
-    icon: CalendarIcon,
-    background: 'bg-yellow-500',
-  },
-  {
-    title: 'Create a Gallery',
-    description: 'Great for mood boards and inspiration.',
-    icon: PhotographIcon,
-    background: 'bg-green-500',
-  },
-  {
-    title: 'Create a Board',
-    description: 'Track tasks in different stages of your project.',
-    icon: ViewBoardsIcon,
-    background: 'bg-blue-500',
-  },
-  {
-    title: 'Create a Spreadsheet',
-    description: 'Lots of numbers and things — good for nerds.',
-    icon: TableIcon,
-    background: 'bg-indigo-500',
-  },
-  {
-    title: 'Create a Timeline',
-    description: 'Get a birds-eye-view of your procrastination.',
-    icon: ClockIcon,
-    background: 'bg-purple-500',
-  },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 
 export function ViewProjects(props: Props) {
   const [projects, setProjects] = useState<any>({ owned: [], assigned: [] });
@@ -98,11 +46,11 @@ export function ViewProjects(props: Props) {
                   <h2 className="text-lg font-medium text-gray-900">
                     Projects
                   </h2>
-                  <p className="mt-8 text-sm text-gray-500">
+                  <p className="text-sm text-gray-500">
                     Here's a list of projects that you own.
                   </p>
                   <div className="hidden mt-4 sm:block">
-                    <div className="align-middle inline-block min-w-full pb-4 border-b border-gray-200">
+                    <div className="align-middle inline-block min-w-full pb-8 border-b border-gray-200">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {projects.owned.length > 0 ? (
                           projects.owned.map(item => (
@@ -118,7 +66,10 @@ export function ViewProjects(props: Props) {
                                 />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <a href="#" className="focus:outline-none">
+                                <Link
+                                  to={`/view-project/${item._id}`}
+                                  className="focus:outline-none"
+                                >
                                   <span
                                     className="absolute inset-0"
                                     aria-hidden="true"
@@ -129,12 +80,12 @@ export function ViewProjects(props: Props) {
                                   <p className="text-sm  text-gray-500 truncate">
                                     {item.description}
                                   </p>
-                                </a>
+                                </Link>
                               </div>
                             </div>
                           ))
                         ) : (
-                          <div className="text-center">
+                          <div>
                             <p className="text-sm font-medium text-gray-900">
                               You don't own any projects.
                             </p>
@@ -143,7 +94,7 @@ export function ViewProjects(props: Props) {
                       </div>
                     </div>
                   </div>
-                  <p className="mt-8 text-sm text-gray-500">
+                  <p className="mt-3 text-sm text-gray-500">
                     Here's a list of projects that you're a member of.
                   </p>
                   <div className="hidden mt-4 sm:block">
@@ -179,9 +130,9 @@ export function ViewProjects(props: Props) {
                             </div>
                           ))
                         ) : (
-                          <div className="text-center">
+                          <div>
                             <p className="text-sm font-medium text-gray-900">
-                              You don't own any projects.
+                              You haven't been added to any projects.
                             </p>
                           </div>
                         )}
@@ -214,13 +165,13 @@ export function ViewProjects(props: Props) {
                   </p>
 
                   <div className="mt-4 flex">
-                    <a
-                      href="/create-project"
+                    <Link
+                      to="/create-project"
                       className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Or start a new project
                       <span aria-hidden="true"> &rarr;</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
