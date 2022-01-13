@@ -76,8 +76,8 @@ export function ViewProjects(props: Props) {
                                       />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                      <a
-                                        href={`/view-project/${project._id}`}
+                                      <Link
+                                        to={`/view-project/${project._id}`}
                                         className="focus:outline-none"
                                       >
                                         <span
@@ -90,7 +90,7 @@ export function ViewProjects(props: Props) {
                                         <p className="text-sm  text-gray-500 truncate">
                                           {project.description}
                                         </p>
-                                      </a>
+                                      </Link>
                                     </div>
                                   </div>
                                 ))}
@@ -121,8 +121,8 @@ export function ViewProjects(props: Props) {
                                       />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                      <a
-                                        href={`/view-project/${project._id}`}
+                                      <Link
+                                        to={`/view-project/${project._id}`}
                                         className="focus:outline-none"
                                       >
                                         <span
@@ -135,7 +135,7 @@ export function ViewProjects(props: Props) {
                                         <p className="text-sm  text-gray-500 truncate">
                                           {project.description}
                                         </p>
-                                      </a>
+                                      </Link>
                                     </div>
                                   </div>
                                 ))}
